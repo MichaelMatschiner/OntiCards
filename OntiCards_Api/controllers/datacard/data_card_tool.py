@@ -91,13 +91,14 @@ class DataCardToolAPI(Resource):
         keyword = (request.args.get("q") or "").strip()
 
         try:
-            page = max(int(request.args.get("page", 1)), 1)
-        except Exception:
+            page = int(request.args.get("page", 1))
+        except (TypeError, ValueError):
             page = 1
+        page = max(1, page)
 
         try:
             page_size = int(request.args.get("page_size", 50))
-        except Exception:
+        except (TypeError, ValueError):
             page_size = 50
         page_size = max(1, min(page_size, 200))
 
